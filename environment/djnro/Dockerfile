@@ -1,4 +1,4 @@
-FROM python:3.7
+FROM python:3.10
 
 #libpg-dev needed for psycopg2 compilation
 #this pkg is included in python:2.7, but make the statement explicit anyway

@@ -1,2 +1,2 @@
 uwsgi==2.0.*
-psycopg2-binary==2.7.*
+psycopg2>=2.8.6

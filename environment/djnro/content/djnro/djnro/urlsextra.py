@@ -1,8 +1,8 @@
-from django.conf.urls import include, url
+from django.urls import include, path
 import edumanage.viewsextra
 
 urlpatterns = [
-    url(r'^icingaconf/?', edumanage.viewsextra.icingaconf, name="icingaconf"),
-    url(r'^radsecproxyconf/?', edumanage.viewsextra.radsecproxyconf, name="radsecproxyconf"),
-    url(r'^', include('djnro.urls')),
+    path('icingaconf/', edumanage.viewsextra.icingaconf, name="icingaconf"),
+    path('radsecproxyconf/', edumanage.viewsextra.radsecproxyconf, name="radsecproxyconf"),
+    path('', include('djnro.urls')),
 ]

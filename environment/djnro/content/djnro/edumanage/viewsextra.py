@@ -1,7 +1,7 @@
 import re
 import socket
 
-from django.shortcuts import render_to_response, redirect, render
+from django.shortcuts import redirect, render
 from django.http import (
     HttpResponse,
     HttpResponseRedirect,
@@ -9,13 +9,13 @@ from django.http import (
     HttpResponseBadRequest
 )
 from django.template import RequestContext
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.cache import never_cache
 from django.contrib.auth import logout
 from django.template.loader import render_to_string
 from django.conf import settings
-from django.utils.translation import ugettext as _
+from django.utils.translation import gettext as _
 
 from edumanage.models import (
     InstRealmMon,
