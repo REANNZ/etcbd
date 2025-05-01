@@ -12,7 +12,7 @@ import warnings
 # djnro.lldict.LazyLangDict ensures that an (arbitrary) string value
 # will be returned where a dict is not expected.
 from djnro.lldict import LazyLangDict as _ld
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 PROJECT_DIR = os.path.join(BASE_DIR, 'djnro')
 
@@ -52,7 +52,7 @@ ADMINS = (
 MANAGERS = ADMINS
 
 # Hosts/domain names that are valid for this site; required if DEBUG is False
-# See https://docs.djangoproject.com/en/1.4/ref/settings/#allowed-hosts
+# See https://docs.djangoproject.com/en/5.1/ref/settings/#allowed-hosts
 ALLOWED_HOSTS = [os.getenv('SITE_PUBLIC_HOSTNAME','*')]
 #ALLOWED_HOSTS = ['*']
 # Restrict to SITE_PUBLIC_HOSTNAME - or permit any if this variable is not set
@@ -71,7 +71,7 @@ SECURE_PROXY_SSL_HEADER = ('X-Forwarded-Protocol', 'https')
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+        'ENGINE': 'django.db.backends.postgresql', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
         'NAME': os.getenv('DB_NAME',''),                    # Or path to database file if using sqlite3.
         'USER': os.getenv('DB_USER',''),                    # Not used with sqlite3.
         'PASSWORD': os.getenv('DB_PASSWORD',''),            # Not used with sqlite3.
@@ -139,12 +139,21 @@ CACHES = {
     }
 }
 
-# For production instances enable memcache
+# For production instances enable memcache or redis:
 # CACHES = {
 #     'default': {
-#         'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+#         'BACKEND': 'django.core.cache.backends.memcached.PyMemcacheCache',
 #         'TIMEOUT': 60, # default is 300
 #         'LOCATION': '127.0.0.1:11211',
+#     }
+# }
+
+# Note: Redis requires the additional pip packages redis and hiredis
+# CACHES = {
+#     'default': {
+#         'BACKEND': 'django.core.cache.backends.redis.RedisCache',
+#         'TIMEOUT': 60, # default is 300
+#         'LOCATION': 'redis://127.0.0.1:6379',
 #     }
 # }
 
@@ -282,10 +291,10 @@ MANAGE_LOGIN_METHODS = (
   { 'backend': 'locallogin', 'enabled': False, 'class': None, 'name': 'Local login', 'local_image': 'img/right_logo_small.png' },
   # ModelBackend class 'django.contrib.auth.backends.ModelBackend' intentionally omitted as it is always included in AUTHENTICATION_BACKENDS
   { 'backend': 'google-oauth2', 'enabled': True, 'class': 'social_core.backends.google.GoogleOAuth2', 'name': 'Google', 'fa_style': 'fa fa-google fa-2x' },
-  { 'backend': 'yahoo', 'enabled': True, 'name': 'Yahoo', 'class': 'social_core.backends.yahoo.YahooOpenId', 'local_image': 'img/yahoo_img.png' },
+  { 'backend': 'yahoo-oauth2', 'enabled': True, 'name': 'Yahoo', 'class': 'social_core.backends.yahoo.YahooOAuth2', 'local_image': 'img/yahoo_img.png' },
   { 'backend': 'amazon', 'enabled': False, 'class': 'social_core.backends.amazon.AmazonOAuth2', 'name': 'Amazon', 'fa_style': 'fa fa-amazon fa-2x' },
-  { 'backend': 'docker', 'enabled': False, 'class': 'social_core.backends.docker.DockerOAuth2', 'name': 'Docker', 'image_url': 'https://hub.docker.com/hub-static/img/nav/docker-logo-loggedin.png' },
-  { 'backend': 'dropbox-oauth2', 'enabled': False, 'class': 'social_core.backends.dropbox.DropboxOAuth2', 'name': 'Dropbox', 'fa_style': 'fa fa-dropbox fa-2x' },
+  { 'backend': 'docker', 'enabled': False, 'class': 'social_core.backends.docker.DockerOAuth2', 'name': 'Docker', 'local_image': 'img/docker-mark-blue.svg' },
+  { 'backend': 'dropbox-oauth2', 'enabled': False, 'class': 'social_core.backends.dropbox.DropboxOAuth2V2', 'name': 'Dropbox', 'fa_style': 'fa fa-dropbox fa-2x' },
   { 'backend': 'facebook', 'enabled': False, 'class': 'social_core.backends.facebook.FacebookOAuth2', 'name': 'Facebook', 'fa_style': 'fa fa-facebook fa-2x' },
   { 'backend': 'launchpad', 'enabled': True, 'class': 'social_core.backends.launchpad.LaunchpadOpenId', 'name': 'Launchpad', 'image_url': 'https://login.launchpad.net/assets/identityprovider/img/favicon.ico' },
   { 'backend': 'linkedin-oauth2', 'enabled': False, 'class': 'social_core.backends.linkedin.LinkedinOAuth2', 'name': 'LinkedIn', 'fa_style': 'fa fa-linkedin fa-2x' },
@@ -372,16 +381,16 @@ for var in os.environ:
 #         "CAT_USER_API_VERSION": 2,
 #         "CAT_USER_API_LOCAL_DOWNLOADS": "https://cat.eduroam.org/",
 #         "CAT_PROFILES_URL": "https://cat.eduroam.org/",
-#         "CAT_IDPMGMT_URL": "https://cat.eduroam.org/admin/overview_idp.php"
+#         "CAT_IDPMGMT_URL": "https://cat.eduroam.org/admin/overview_org.php"
 #     },
 #     'testing': {
 #         "CAT_API_KEY": "<provided API key>",
-#         "CAT_API_URL": "https://cat-test.eduroam.org/test/admin/API.php",
-#         "CAT_USER_API_URL": "https://cat-test.eduroam.org/test/user/API.php",
+#         "CAT_API_URL": "https://cat-test.eduroam.org/admin/API.php",
+#         "CAT_USER_API_URL": "https://cat-test.eduroam.org/user/API.php",
 #         "CAT_USER_API_VERSION": 2,
-#         "CAT_USER_API_LOCAL_DOWNLOADS": "https://cat-test.eduroam.org/test/",
-#         "CAT_PROFILES_URL": "https://cat-test.eduroam.org/test",
-#         "CAT_IDPMGMT_URL": "https://cat-test.eduroam.org/test/admin/overview_idp.php"
+#         "CAT_USER_API_LOCAL_DOWNLOADS": "https://cat-test.eduroam.org/",
+#         "CAT_PROFILES_URL": "https://cat-test.eduroam.org/",
+#         "CAT_IDPMGMT_URL": "https://cat-test.eduroam.org/admin/overview_org.php"
 #     },
 # }
 
