@@ -68,7 +68,7 @@ for SERVICE in $SERVICES ; do
         COMPOSE_FILE=docker-compose-$SERVICE.yml COMPOSE_PROJECT_NAME=$SERVICE docker compose build $PULL $NOCACHE
     fi
     for IMAGE in $( eval "echo \${IMAGES_${SERVICE}}" ) ; do
-        docker tag ${SERVICE}_${IMAGE} ${REPOBASE}/${SERVICE}_${IMAGE}:${TAG}
+        docker tag ${SERVICE}-${IMAGE} ${REPOBASE}/${SERVICE}_${IMAGE}:${TAG}
         if [ -z "$SKIPPUSH" ] ; then
             docker push $REPOBASE/${SERVICE}_${IMAGE}:${TAG}
         fi

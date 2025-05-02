@@ -41,7 +41,7 @@ services:
   # djnro-cron periodically fetching upstream all.kml
   djnro-scheduler:
     restart: always
-    image: admintool_djnro:latest
+    image: admintool-djnro:latest
     container_name: djnro-scheduler
     environment:
         DB_HOST: postgres
