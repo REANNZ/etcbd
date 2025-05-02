@@ -193,6 +193,8 @@ NRO_PROV_SOCIAL_MEDIA_CONTACT = [ ] + (
 
 # Helpdesk, used in base.html:
 NRO_DOMAIN_HELPDESK_DICT = {"name": _ld({'en':"Domain Helpdesk"}), 'email':'helpdesk@example.com', 'phone': '12324567890', 'uri': 'helpdesk.example.com'}
+# realm used to generate a TLS-PSK identity for service providers
+NRO_TLSPSK_REALM = os.getenv('NRO_TLSPSK_REALM','set.tlspsk.realm.invalid')
 
 #Countries for Realm model:
 REALM_COUNTRIES = (
