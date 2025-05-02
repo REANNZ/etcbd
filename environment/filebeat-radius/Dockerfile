@@ -1,4 +1,4 @@
-FROM debian:stretch
+FROM debian:bookworm
 
 ENV FILEBEAT_VERSION=6.3.2
 
