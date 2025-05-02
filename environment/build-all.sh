@@ -49,9 +49,9 @@ while [ $# -gt 0 ] ; do
         echo "Usage: $0 [options...]"
         echo "    --tag tag: set the tag of the container image"
         echo "    --repobase repobase: set the base name of the repositories to push into"
-        echo "    --pull: pass --pull to docker-compose build to refresh base images"
-        echo "    --no-cache: pass --no-cache to docker-compose build to do a fresh build"
-        echo "    --skip-build: skip docker-compose build - only tag and push current build"
+        echo "    --pull: pass --pull to docker compose build to refresh base images"
+        echo "    --no-cache: pass --no-cache to docker compose build to do a fresh build"
+        echo "    --skip-build: skip docker compose build - only tag and push current build"
         echo "    --skip-push: skip docker push, only build and tag services locally"
         echo "    --services \"list of services\": only build listed services,"
         echo "          skip other services and extra images"
@@ -65,7 +65,7 @@ done
 for SERVICE in $SERVICES ; do
     # build the images
     if [ -z "$SKIPBUILD" ] ; then
-        COMPOSE_FILE=docker-compose-$SERVICE.yml COMPOSE_PROJECT_NAME=$SERVICE docker-compose build $PULL $NOCACHE
+        COMPOSE_FILE=docker-compose-$SERVICE.yml COMPOSE_PROJECT_NAME=$SERVICE docker compose build $PULL $NOCACHE
     fi
     for IMAGE in $( eval "echo \${IMAGES_${SERVICE}}" ) ; do
         docker tag ${SERVICE}_${IMAGE} ${REPOBASE}/${SERVICE}_${IMAGE}:${TAG}
